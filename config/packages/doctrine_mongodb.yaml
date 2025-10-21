@@ -1,0 +1,24 @@
+# config/packages/doctrine_mongodb.yaml
+doctrine_mongodb:
+    connections:
+        default:
+            # Connexion à MongoDB via la variable d'environnement
+            server: '%env(resolve:MONGODB_URL)%'
+            options:
+                connectTimeoutMS: 5000      # Timeout de connexion : 5 secondes
+                socketTimeoutMS: 30000      # Timeout de requête : 30 secondes
+                retryWrites: true           # Réessayer les écritures en cas d'échec
+                w: 'majority'               # Niveau de garantie d'écriture
+
+    default_database: '%env(resolve:MONGODB_DB)%'
+
+    document_managers:
+        default:
+            auto_mapping: true
+            mappings:
+                App:
+                    type: attribute
+                    dir: '%kernel.project_dir%/src/Document'
+                    prefix: 'App\Document'
+                    is_bundle: false
+
